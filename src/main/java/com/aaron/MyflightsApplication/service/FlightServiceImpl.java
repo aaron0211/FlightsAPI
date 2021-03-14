@@ -96,6 +96,9 @@ public class FlightServiceImpl implements FlightService{
 
     @Override
     public void deleteByDestination(String destination) {
-        //TODO eliminar todos los vuelos de un destino
+        List<Flight> list = findByDestination(destination);
+        for (int i = 0;i<list.size();i++){
+            deleteFlight(list.get(i).getId());
+        }
     }
 }

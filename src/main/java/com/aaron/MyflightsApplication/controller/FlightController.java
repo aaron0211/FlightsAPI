@@ -144,6 +144,19 @@ public class FlightController {
         return new ResponseEntity<>(flights, HttpStatus.OK);
     }
 
+    @Operation(summary = "Elimina todos los vuelos de una destino")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Se eliminan los vuelos", content = @Content(schema = @Schema(implementation = Flight.class))),
+            @ApiResponse(responseCode = "404", description = "No existe el destino", content = @Content(schema = @Schema(implementation = Response.class)))
+    })
+    @DeleteMapping(value = "/flights/destino/{destination}", produces = "application/json")
+    public ResponseEntity<Response> deleteByDestination(@PathVariable String destination){
+        logger.info("Borrados vuelos con destino "+destination);
+        flightService.deleteByDestination(destination);
+
+        return new ResponseEntity<>(Response.noErrorResponse(), HttpStatus.OK);
+    }
+
     @ExceptionHandler(FlightNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
